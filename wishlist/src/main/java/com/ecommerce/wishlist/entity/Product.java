@@ -1,8 +1,6 @@
 package com.ecommerce.wishlist.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -25,9 +23,9 @@ public class Product {
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime lastUpdated = LocalDateTime.now();
 
-    /*@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Wishlist> wishlistItems;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    /*@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Notification> notifications;*/
 }
