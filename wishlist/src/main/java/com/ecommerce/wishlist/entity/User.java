@@ -22,9 +22,9 @@ public class User {
     private String notificationPreference;
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Wishlist> wishlistItems;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Notification> notifications;*/
 }
