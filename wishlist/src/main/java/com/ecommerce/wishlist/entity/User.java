@@ -27,6 +27,6 @@ public class User {
     @JsonManagedReference(value = "user-wishlist")
     private List<Wishlist> wishlistItems;
 
-    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Notification> notifications;*/
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Notification> notifications;
 }
