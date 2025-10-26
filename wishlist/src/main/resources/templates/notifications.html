@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications - Wishlist System</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Wishlist & Notification System</h1>
+      <nav>
+        <a th:href="@{/}">Products</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/wishlist}">Wishlist</a>
+        <a th:href="@{/notifications}" class="active">Notifications</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <div class="section-header">
+          <h2>Select User</h2>
+        </div>
+        <form method="get" class="select-form">
+          <label>
+            <select name="userId" required>
+              <option value="">Choose a user...</option>
+              <option th:each="u : ${users}"
+                      th:value="${u.userId}"
+                      th:text="${u.name}"
+                      th:selected="${param.userId != null && param.userId[0] == u.userId.toString()}"></option>
+            </select>
+          </label>
+          <button type="submit">Load Notifications</button>
+        </form>
+      </section>
+
+      <section th:if="${param.userId}">
+        <div class="section-header">
+          <h2>Notifications</h2>
+          <span class="badge" th:text="${notifications.size()} + ' total'">0 total</span>
+        </div>
+        
+        <div class="empty-state" th:if="${#lists.isEmpty(notifications)}">
+          <p>No notifications yet</p>
+        </div>
+        
+        <div class="notifications-list" th:unless="${#lists.isEmpty(notifications)}">
+          <div class="notification-card" th:each="n : ${notifications}">
+            <div class="notification-icon">🔔</div>
+            <div class="notification-content">
+              <div class="notification-product" th:text="${n.productName}">Product</div>
+              <div class="notification-message" th:text="${n.message}">Message</div>
+              <div class="notification-date" th:text="${#temporals.format(n.sentAt, 'MMM dd, yyyy HH:mm')}">Date</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

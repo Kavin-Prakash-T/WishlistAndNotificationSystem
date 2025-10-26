@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist - Wishlist System</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Wishlist & Notification System</h1>
+      <nav>
+        <a th:href="@{/}">Products</a>
+        <a th:href="@{/users}">Users</a>
+        <a th:href="@{/wishlist}" class="active">Wishlist</a>
+        <a th:href="@{/notifications}">Notifications</a>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <div class="section-header">
+          <h2>Select User</h2>
+        </div>
+        <form method="get" class="select-form">
+          <label>
+            <select name="userId" required>
+              <option value="">Choose a user...</option>
+              <option th:each="u : ${users}"
+                      th:value="${u.userId}"
+                      th:text="${u.name}"
+                      th:selected="${param.userId != null && param.userId[0] == u.userId.toString()}"></option>
+            </select>
+          </label>
+          <button type="submit">Load Wishlist</button>
+        </form>
+      </section>
+
+      <section th:if="${param.userId}">
+        <div class="section-header">
+          <h2>Wishlist Items</h2>
+          <span class="badge" th:text="${wishlistItems.size()} + ' items'">0 items</span>
+        </div>
+        
+        <div class="empty-state" th:if="${#lists.isEmpty(wishlistItems)}">
+          <p>No items in wishlist</p>
+        </div>
+        
+        <div class="wishlist-grid" th:unless="${#lists.isEmpty(wishlistItems)}">
+          <div class="wishlist-card" th:each="i : ${wishlistItems}">
+            <div class="wishlist-info">
+              <div class="product-name" th:text="${i.productName}">Product</div>
+              <div class="wishlist-status">
+                <span class="status-badge" th:classappend="${i.notified ? 'notified' : 'pending'}" 
+                      th:text="${i.notified ? '✓ Notified' : '⏱ Pending'}">Status</span>
+              </div>
+            </div>
+            <form method="post" th:action="@{/wishlist/remove/{id}(id=${i.wishlistId})}" class="remove-form">
+              <th:block th:if="${_csrf != null}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              </th:block>
+              <input type="hidden" name="userId" th:value="${param.userId}" />
+              <button type="submit" class="btn-remove">Remove</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
