@@ -24,6 +24,6 @@ public class ProductController {
 
     @PutMapping("/update/{productId}")
     public Product updatePrice(@PathVariable Long productId, @RequestParam double price) {
-        return productService.updateProductPrice(productId, price);
+        return productService.updatePrice(productId, price);
     }
 }

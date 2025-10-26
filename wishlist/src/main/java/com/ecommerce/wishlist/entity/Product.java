@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 @Entity
 @Data
@@ -24,8 +25,10 @@ public class Product {
     private LocalDateTime lastUpdated = LocalDateTime.now();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "product-wishlist")
     private List<Wishlist> wishlistItems;
 
-    /*@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Notification> notifications;*/
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "product-notification")
+    private List<Notification> notifications;
 }
